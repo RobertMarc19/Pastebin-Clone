@@ -26,9 +26,7 @@ async function displayData() {
         row.words.length > 30 ? row.words.substring(0, 3) + "..." : row.words;
       const finalWord =
         row.words.length > 30
-          ? `<a href="/full-word?word=${encodeURIComponent(
-              row.words
-            )}" target="_blank">${wordsForDisplay}</a>`
+          ? `<a href="/word/${row.ID}" target="_blank">${wordsForDisplay}</a>`
           : row.words;
       const wordsInList = `<li>${finalWord}</li>`;
       document.querySelector("ul").insertAdjacentHTML("beforeend", wordsInList);
