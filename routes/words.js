@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../server/database/connection");
 
-
 router.post("/save-data-form", (req, res) => {
   const savedText = req.body.savedText;
   const query = "INSERT INTO word (words) VALUES (?)";
@@ -26,9 +25,16 @@ router.get("/get-data", (req, res) => {
   });
 });
 
-router.get("/full-word", (req, res) => {
-  const word = req.query.word;
-  res.send(`<p>${word}</p>`);
+router.get("/word/:id", (req, res) => {
+  const wordId = req.params.id;
+  const query = "SELECT words FROM wordsdb.word WHERE id = ?";
+  connection.query(query, [wordId], (err, result) => {
+    if (err) {
+      console.error("You couldn't get the word:", err);
+      return res.status(500).send("Couldn't fetch the word");
+    }
+    res.send(`<p>${result[0].words}</p>`);
+  });
 });
 
 module.exports = router;
